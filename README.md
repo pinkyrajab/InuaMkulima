@@ -14,8 +14,20 @@ A RESTful API for managing authentication, products, transactions, and farmer wa
 Initially, I planned to use MSSQL Server as the database for storing products, transactions, and wallet balances. However, I encountered issues with SQL Server Management Studio (SSMS) that prevented a smooth setup.
 To save time and ensure rapid development, I decided to use JSON files as a temporary data store. This allowed me to focus on implementing the core business logic without delays caused by database configuration.
 
+**Dependencies Used**
+-express – Framework for building the API.
+-dotenv – Loads environment variables from .env file.
+-jsonwebtoken – Handles JWT authentication.
+-bcryptjs – Hashes passwords securely.
+-fs – Reads and writes JSON files for temporary storage.
+-path – Handles file paths for JSON storage.
+-amqplib – Implements RabbitMQ for event-driven processing.
+-morgan – Logs API requests for debugging.
+-winston – Writes logs to files and supports external logging.
+
 ## Installation & Setup
 ###  Clone the Repository 
 ```sh
 git clone https://github.com/pinkyrajab/InuaMkulima.git
 cd transaction-api
+
