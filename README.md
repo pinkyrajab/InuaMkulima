@@ -12,5 +12,5 @@ This is a  Node.js API that enables  buying/selling products  with  JWT authenti
 ## Installation & Setup
 ###  Clone the Repository 
 ```sh
-git clone https://github.com/YOUR_GITHUB_USERNAME/transaction-api.git
+git clone https://github.com/pinkyrajab/InuaMkulima.git
 cd transaction-api
