@@ -1,3 +1,4 @@
+//This was just for testing my connection to the database as my SSMS isnt working
 const express = require("express");
 const { connectDB, sql } = require("./config/db");
 
@@ -23,5 +24,5 @@ app.get("/test-db", async (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}`);
 });

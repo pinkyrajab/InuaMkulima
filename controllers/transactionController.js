@@ -26,11 +26,12 @@ const writeWallets = (wallets) => {
 };
 
 exports.recordTransaction = async (req, res) => {
-    const { farmerId, amount } = req.body;
+    try {
+        const { farmerId, amount } = req.body;
 
     if (!farmerId || amount === undefined) {
         logger.warn(`Missing required parameters - Farmer ID: ${farmerId}, Amount: ${amount}`);
-        return res.status(400).json({ status: "400", message: "Farmer ID and amount are required" });
+        return res.status(400).json({ status: "200", message: "Farmer ID and amount are required" });
     }
 
     let wallets = readWallets();
@@ -38,12 +39,12 @@ exports.recordTransaction = async (req, res) => {
 
     if (!wallet) {
         logger.warn(`Transaction failed - Wallet not found for Farmer ID: ${farmerId}`);
-        return res.status(400).json({ status: "400", message: "Farmer wallet not found" });
+        return res.status(400).json({ status: "200", message: "Farmer wallet not found" });
     }
 
     if (wallet.balance < amount) {
-        logger.warn(`Transaction failed - Insufficient balance for Farmer ID: ${farmerId}`);
-        return res.status(400).json({ status: "400", message: "Insufficient balance" });
+        logger.warn(`Transaction failed - Insufficient wallet balance for Farmer ID: ${farmerId}`);
+        return res.status(400).json({ status: "200", message: "Insufficient wallet balance" });
     }
 
     wallet.balance -= amount;
@@ -59,5 +60,10 @@ exports.recordTransaction = async (req, res) => {
         console.log("Transaction event published:", { farmerId, amount });
     }
 
-    return res.status(200).json({ status: "200", message: "Transaction successful", data: { balance: wallet.balance } });
+    return res.status(200).json({ status: "000", message: "Transaction successful", data: { balance: wallet.balance } });
+    } catch (error) {
+        console.error("Transactions:", error); 
+        res.status(400).json({ status: '400', message: 'Transaction Processing Failed' });
+    }
+    
 };

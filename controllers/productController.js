@@ -20,24 +20,35 @@ const saveProducts = (products) => {
 
 // Get all products
 const getAllProducts = (req, res) => {
-    const products = readProducts();
-    res.json({ status: "000", message: "Products retrieved", data: products });
+    try {
+        const products = readProducts();
+        res.json({ status: "000", message: "Products retrieved", data: products });
+    } catch (error) {
+        console.error("GetProducts:", error); 
+        res.status(400).json({ status: '400', message: 'Unable to fetch products' });
+    }
+   
 };
 
 // Add a new product
 const addProduct = (req, res) => {
-    const { name, price, description } = req.body;
-    if (!name) {
-        return res.status(200).json({ status: "200", message: "Product name is required" });
+    try {
+        const { name, price, description } = req.body;
+        if (!name) {
+            return res.status(200).json({ status: "200", message: "Product name is required" });
+        }
+
+        const products = readProducts();
+        const newProduct = { id: products.length + 1, name, price, description };
+        products.push(newProduct);
+        saveProducts(products);
+
+        res.json({ status: "000", message: "Product added successfully", data: newProduct });
+    } catch (error) {
+        console.error("Product Creation Error::", error); 
+        res.status(400).json({ status: '400', message: 'Database error' });
     }
-
-    const products = readProducts();
-    const newProduct = { id: products.length + 1, name, price, description };
-    products.push(newProduct);
-    saveProducts(products);
-
-    res.json({ status: "000", message: "Product added successfully", data: newProduct });
+    
 };
 
-// Export functions correctly
 module.exports = { getAllProducts, addProduct };

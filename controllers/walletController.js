@@ -15,13 +15,27 @@ const readWallets = () => {
 };
 
 exports.getWalletBalance = (req, res) => {
-  const { farmerId } = req.params;
-  let wallets = readWallets();
-  const wallet = wallets.find((w) => w.farmerId === farmerId);
+  try {
+    const { farmerId } = req.params;
 
-  if (!wallet) {
-    return res.status(400).json({ status: "400", message: "Farmer ID is required or Wallet not found" });
-  }
+    if (!farmerId) {
+        return res.status(400).json({ status: "200", message: "Farmer ID is required" });
+    }
 
-  return res.status(200).json({ status: "200", message: "Successful", data: { balance: wallet.balance } });
+    let wallets = readWallets();
+    const wallet = wallets.find((w) => w.farmerId === farmerId);
+
+    // I Had to check if wallet was found before proceeding
+    if (!wallet) {
+        return res.status(200).json({ status: "200", message: "Wallet not found" });
+    }
+
+    return res.status(200).json({ status: "000", message: "Wallet balance retrieved", data: { balance: wallet.balance } });
+
+} catch (error) {
+    console.error("Wallet Service Error:", error);
+    return res.status(400).json({ status: "400", message: "Wallet Service Unavailable" });
+}
+
+  
 };
